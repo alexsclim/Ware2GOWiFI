@@ -49,12 +49,11 @@ function display(sck,response)
      print(response)
 end
 
-function post_location(location_id, latitude, longitude)
+function post_location(latitude, longitude)
 
   uri = "/nearby"
 
   location = {
-    user_id = user_id,
     latitude = latitude,
     longitude = longitude
   }
