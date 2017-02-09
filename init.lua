@@ -51,7 +51,7 @@ end
 
 function post_location(latitude, longitude)
 
-  uri = "/nearby"
+  uri = "/locations/nearby"
 
   location = {
     latitude = latitude,
@@ -102,7 +102,7 @@ function get_hot_locations()
   socket = net.createConnection(net.TCP, 0)
   socket:on("receive", function(sck, c) print(c) end )
   socket:connect(3000,"137.82.61.1")
-  socket:send("GET /hot HTTP/1.1\r\nHost: localhost\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
+  socket:send("GET /locations/hot HTTP/1.1\r\nHost: localhost\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
 end
 
 function send_get_request()
