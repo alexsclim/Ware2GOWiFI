@@ -1,7 +1,7 @@
 -- This information is used by the Wi-Fi dongle to make a wireless connection to the router in the Lab
 -- or if you are using another router e.g. at home, change ID and Password appropriately
-SSID = "bh7"
-SSID_PASSWORD = "88888888"
+SSID = "Turtle"
+SSID_PASSWORD = "turtleman"
 
 -- configure ESP as a station
 wifi.setmode(wifi.STATION)

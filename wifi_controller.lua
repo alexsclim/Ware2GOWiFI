@@ -13,7 +13,7 @@ wifi.sta.autoconnect(1)
 -- wifi.sta.connect()
 
 -- pause for connection to take place - adjust time delay if necessary or repeat until connection made
-tmr.delay(1000000) -- wait 1,000,000 us = 1 second
+tmr.delay(5000000) -- wait 1,000,000 us = 1 second
 
 ip = wifi.sta.getip()
 
@@ -43,7 +43,6 @@ function build_post_request(host, uri, data_table)
      "Content-Length: "..string.len(data).."\r\n"..
      "\r\n"..
      data
-     print(request)
      return request
 end
 
@@ -51,14 +50,26 @@ function display(sck,response)
      print(response)
 end
 
-function send_post_request(payload)
+function send_post_request()
+
+  location = {
+    latitude = "49.26205299999999",
+    longitude = "-123.24918869999999"
+  }
 
   socket = net.createConnection(net.TCP,0)
   socket:on("receive",display)
   socket:connect(3000, "192.168.43.72")
 
   socket:on("connection",function(sck)
-    post_request = build_post_request(HOST,URI,payload)
-    sck:send(post_request)
+    post_request = build_post_request(HOST,URI,location)
+    socket:send(post_request)
   end)
+end
+
+function send_get_request()
+  sk = net.createConnection(net.TCP, 0)
+  sk:on("receive", function(sck, c) print(c) end )
+  sk:connect(80,"137.82.61.1")
+  sk:send("GET /~l6w8/testlocationdata.txt HTTP/1.1\r\nHost: ece.ubc.ca\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
 end
