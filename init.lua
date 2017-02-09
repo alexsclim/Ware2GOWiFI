@@ -70,7 +70,7 @@ end
 
 function post_review(user_id, user_name, building_id, review)
 
-  uri = "/review"
+  uri = ""..building_id.."/review"
 
   review = {
     user_id = user_id,
@@ -94,7 +94,7 @@ function get_reviews(building_id)
   socket = net.createConnection(net.TCP, 0)
   socket:on("receive", function(sck, c) print(c) end )
   socket:connect(3000,"137.82.61.1")
-  socket:send("GET /reviews/"..building_id.." HTTP/1.1\r\nHost: localhost\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
+  socket:send("GET /"..building_id.."reviews/"" HTTP/1.1\r\nHost: localhost\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
 end
 
 function get_hot_locations()
