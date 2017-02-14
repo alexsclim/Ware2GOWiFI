@@ -26,7 +26,7 @@ else
 end
 
 HOST = "localhost"
-IP_ADDRESS = "192.168.43.72"
+URI = "/locations/nearby"
 
 function build_post_request(host, uri, data_table)
 
@@ -50,68 +50,28 @@ function display(sck,response)
      print(response)
 end
 
-function post_location(latitude, longitude)
-
-  uri = "/locations/nearby"
+function send_post_request()
 
   location = {
-    latitude = latitude,
-    longitude = longitude
+    latitude = "49.26205299999999",
+    longitude = "-123.24918869999999"
   }
 
   socket = net.createConnection(net.TCP,0)
-  socket:on("receive", display)
-  socket:connect(3000, IP_ADDRESS)
+  socket:on("receive",display)
+  socket:connect(3000, "192.168.43.72")
 
-  socket:on("connection", function(sck)
-    post_request = build_post_request(HOST, uri, location)
+  socket:on("connection",function(sck)
+    post_request = build_post_request(HOST,URI,location)
     socket:send(post_request)
   end)
-end
-
-function post_review(user_id, user_name, building_id, review_body)
-
-  uri = "/"..building_id.."/reviews"
-
-  print(uri)
-  review = {
-    user_id = user_id,
-    user_name = user_name,
-    building_id = building_id,
-    review = review_body
-  }
-
-  socket = net.createConnection(net.TCP, 0)
-  socket:on("receive", display)
-  socket:connect(3000, IP_ADDRESS)
-
-  socket:on("connection", function(sck)
-    post_request = build_post_request(HOST, uri, review)
-    socket:send(post_request)
-  end)
-end
-
-function get_reviews(building_id)
-
-  socket = net.createConnection(net.TCP, 0)
-  socket:on("receive", function(sck, c) print(c) end )
-  socket:connect(3000, IP_ADDRESS)
-  socket:send("GET /"..building_id.."/reviews HTTP/1.1\r\nHost: localhost\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
-end
-
-function get_hot_locations()
-
-  socket = net.createConnection(net.TCP, 0)
-  socket:on("receive", function(sck, c) print(c) end )
-  socket:connect(3000, IP_ADDRESS)
-  socket:send("GET /locations/hot HTTP/1.1\r\nHost: localhost\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
 end
 
 function send_get_request()
-  socket = net.createConnection(net.TCP, 0)
-  socket:on("receive", function(sck, c) print(c) end )
-  socket:connect(80,"137.82.61.1")
-  socket:send("GET /~l6w8/testlocationdata.txt HTTP/1.1\r\nHost: ece.ubc.ca\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
+  sk = net.createConnection(net.TCP, 0)
+  sk:on("receive", function(sck, c) print(c) end )
+  sk:connect(80,"137.82.61.1")
+  sk:send("GET /~l6w8/testlocationdata.txt HTTP/1.1\r\nHost: ece.ubc.ca\r\nConnection: keep-alive\r\nAccept: */*\r\n\r\n")
 end
 
 function get_file(filename)
